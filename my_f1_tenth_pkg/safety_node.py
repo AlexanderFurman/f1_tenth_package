@@ -33,7 +33,7 @@ class Safety(Node):
         self.scan_sub_ = self.create_subscription(LaserScan, '/scan', self.scan_callback, 10)
         self.drive_pub_ = self.create_publisher(AckermannDriveStamped, '/cmd_vel', 10)
         self.epsilon = 0.01
-
+        
     def odom_callback(self, odom_msg):
         self.speed = odom_msg.twist.twist.linear.x
 
