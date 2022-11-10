@@ -48,7 +48,7 @@ class Safety(Node):
 
             if time_to_collision <= 1:
                 vel = AckermannDriveStamped()
-                vel.drive.speed = 0
+                vel.drive.speed = np.float32(0)
                 self.drive_pub_.publish(vel)
 
 def main(args=None):
