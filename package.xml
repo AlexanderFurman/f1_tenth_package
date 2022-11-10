@@ -7,6 +7,12 @@
   <maintainer email="alexfurman16@gmail.com">alex</maintainer>
   <license>TODO: License declaration</license>
 
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>rclpy</build_depend>
+  <build_depend>nav_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>ackermann_msg</build_depend>
+
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>
