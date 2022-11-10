@@ -42,7 +42,7 @@ class Safety(Node):
         angle_max = scan_msg.angle_max
         ranges = np.array(scan_msg.ranges)
         cos_theta = np.cos(np.linspace(angle_min, angle_max, num=len(ranges)))
-
+        print(angle_min,angle_max,ranges,cos_theta)
         time_to_collision = np.argmin(np.abs(ranges/(self.speed*cos_theta)))
 
         if time_to_collision <= 1:
