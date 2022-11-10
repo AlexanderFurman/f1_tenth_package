@@ -45,6 +45,7 @@ class Safety(Node):
         cos_theta = np.cos(np.linspace(angle_min, angle_max, num=len(ranges)))
         if abs(self.speed) > self.epsilon:
             time_to_collision = np.argmin(np.abs(ranges/(self.speed*cos_theta)))
+            print(f"TTC = {time_to_collision}")
 
             if time_to_collision <= 1:
                 vel = AckermannDriveStamped()
