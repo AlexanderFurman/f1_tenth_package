@@ -34,7 +34,7 @@ class Safety(Node):
         self.drive_pub_ = self.create_publisher(AckermannDriveStamped, '/cmd_vel', 10)
 
     def odom_callback(self, odom_msg):
-        self.speed = odom_msg.twist.linear.x
+        self.speed = odom_msg.twist.twist.linear.x
 
     def scan_callback(self, scan_msg):
         # TODO: calculate TTC
