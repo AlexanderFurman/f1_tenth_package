@@ -31,7 +31,7 @@ class Safety(Node):
         self.speed = 0
         self.odom_sub_ = self.create_subscription(Odometry, '/ego_racecar/odom', self.odom_callback, 10)
         self.scan_sub_ = self.create_subscription(LaserScan, '/scan', self.scan_callback, 10)
-        self.drive_pub_ = self.create_publisher(AckermannDriveStamped, '/cmd_vel', 10)
+        self.drive_pub_ = self.create_publisher(AckermannDriveStamped, '/drive', 10)
         self.epsilon = 0.01
         
     def odom_callback(self, odom_msg):
