@@ -44,7 +44,12 @@ class Safety(Node):
         ranges = np.array(scan_msg.ranges)
         cos_theta = np.cos(np.linspace(angle_min, angle_max, num=len(ranges)))
         if abs(self.speed) > self.epsilon:
-            time_to_collision = np.argmin(np.abs(ranges/(self.speed*cos_theta)))
+            # time_to_collision = np.argmin(np.abs(ranges/(self.speed*cos_theta)))
+            denom = (-self.speed*cos_theta)
+            if denom < 0:
+                time_to_collision = ranges/(-self.speed*cos_theta)
+            else:
+                time_to_collision = 10000
             print(f"TTC = {time_to_collision}")
 
             if time_to_collision <= 1:

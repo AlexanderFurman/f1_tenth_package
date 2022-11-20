@@ -21,7 +21,8 @@ setup(
     entry_points={
         'console_scripts': [
             'my_node = my_f1_tenth_pkg.my_node:main'
-            'safety_node = my_f1_tenth_pkg.safety_node:main'
+            'safety_node = my_f1_tenth_pkg.safety_node:main',
+            'wall_follow_node = my_f1_tenth_pkg.wall_follow_node:main'
         ],
     },
 )
