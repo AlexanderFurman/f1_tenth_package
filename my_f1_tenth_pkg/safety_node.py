@@ -5,12 +5,13 @@ from nav_msgs.msg import Odometry
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 from ackermann_msgs.msg import AckermannDriveStamped
+from math import isfinite, cos, sin
 
 import numpy as np
 
 # TODO: import ROS msg types and libraries
 
-class Safety(Node):
+class SafetyNode(Node):
     """
     The class that handles emergency braking.
     """
@@ -35,32 +36,45 @@ class Safety(Node):
         self.epsilon = 0.01
         
     def odom_callback(self, odom_msg):
-        self.speed = odom_msg.twist.twist.linear.x
+        self.speed = odom_msg.twist.twist
 
     def scan_callback(self, scan_msg):
         # TODO: calculate TTC
+        TTC_threshold = 2
+        min_TTC = 50
+        vel_x = self.speed.linear.x
+        vel_y = self.speed.linear.y
         angle_min = scan_msg.angle_min
         angle_max = scan_msg.angle_max
+        increment = scan_msg.angle_increment
         ranges = np.array(scan_msg.ranges)
-        cos_theta = np.cos(np.linspace(angle_min, angle_max, num=len(ranges)))
-        if abs(self.speed) > self.epsilon:
-            # time_to_collision = np.argmin(np.abs(ranges/(self.speed*cos_theta)))
-            denom = (-self.speed*cos_theta)
-            if denom < 0:
-                time_to_collision = ranges/(-self.speed*cos_theta)
-            else:
-                time_to_collision = 10000
-            print(f"TTC = {time_to_collision}")
 
-            if time_to_collision <= 1:
+        for i in range(len(ranges)):
+            #check not nan and not inf
+            if isfinite(ranges[i]):
+                local_dist = ranges[i]
+                local_angle = angle_min + increment*i
+                local_derivative = vel_x*cos(local_angle) + vel_y*sin(local_angle)
+
+                try:
+                    local_TTC = local_dist/local_derivative
+                except ZeroDivisionError:
+                    local_TTC = 0
+                
+                if (local_derivative > 0) and (local_TTC < min_TTC):
+                    min_TTC = local_TTC
+            if min_TTC <= TTC_threshold:
                 vel = AckermannDriveStamped()
                 vel.drive.speed = float(0)
                 self.drive_pub_.publish(vel)
+                print("EMERGENCY BRAKING PROCEDURE INITIATED")
 
 def main(args=None):
+    print("safety node initiated")
     rclpy.init(args=args)
-    sn = Safety()
+    sn = SafetyNode()
     rclpy.spin(sn)
+    safety_node.destroy_node()
     rclpy.shutdown()
 if __name__ == '__main__':
     main()
