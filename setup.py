@@ -22,7 +22,8 @@ setup(
         'console_scripts': [
             'my_node = my_f1_tenth_pkg.my_node:main',
             'safety_node = my_f1_tenth_pkg.safety_node:main',
-            'wall_follow_node = my_f1_tenth_pkg.wall_follow_node:main'
+            'wall_follow_node = my_f1_tenth_pkg.wall_follow_node:main',
+            'reactive_node = my_f1_tenth_pkg.reactive_node:main'
         ],
     },
 )

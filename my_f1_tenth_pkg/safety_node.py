@@ -59,7 +59,7 @@ class SafetyNode(Node):
                 try:
                     local_TTC = local_dist/local_derivative
                 except ZeroDivisionError:
-                    local_TTC = 0
+                    local_TTC = 0 #min_TTC
                 
                 if (local_derivative > 0) and (local_TTC < min_TTC):
                     min_TTC = local_TTC

@@ -31,7 +31,7 @@ class WallFollow(Node):
         self.drive_pub_ = self.create_publisher(AckermannDriveStamped, drive_topic, 10)
 
         # TODO: set PID gains
-        self.kp = 3
+        self.kp = 2
         self.kd = 2
         self.ki = 1
 
@@ -128,7 +128,7 @@ class WallFollow(Node):
         drive_msg.drive.steering_angle = angle
 
         if abs(np.rad2deg(angle)) < 10:
-            velocity = 1.5
+            velocity = 3. #1.5
         elif (abs(np.rad2deg(angle)) > 10 and abs(np.rad2deg(angle)) < 20):
             velocity = 1.
         else:
